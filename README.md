@@ -69,7 +69,7 @@ print("the name of the bird is \(name) this bird cannot fly")
 
 var bluebird = Bird.init()
 
-bluebird.name = "someshit"
+bluebird.name = "blue"
 bluebird.printDescription()
 ```
 
