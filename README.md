@@ -12,7 +12,16 @@ struct Room {
      let width: Double
 }
 ```
-
+```swift
+var a = Room.init(maxOccupancy: 10, length: 20, width: 30)
+var b = a
+var c = Room.init(maxOccupancy: 20, length: 20, width: 30)
+var d = c
+print(a)
+print(b)
+print(c)
+print(d)
+```
 ## Question 2
 
 Using the Bike class below, write code that demonstrates that it is a reference type.
@@ -36,9 +45,33 @@ class Animal {
     }
 }
 ```
+```swift
+class Animal {
+var name: String = ""
+var printDescription() {
+print("I am an animal named \(name)")
+}
+}
+```
 
 b. Override the printDescription method to have the instance of the Bird object print out its name and whether it can fly
+```swift
+class Bird: Animal {
+var canFly: Bool = true
+override func printDescription() {
+if canFly {
+print("the name of this bird is \(name) this bird can fly")
+} else {
+print("the name of the bird is \(name) this bird cannot fly")
+}
+}
+}
 
+var bluebird = Bird.init()
+
+bluebird.name = "someshit"
+bluebird.printDescription()
+```
 
 ## Question 4
 
@@ -52,6 +85,30 @@ class Bike {
       print("Ring!")
     }
   }
+}
+```
+```swift
+class Bike {
+let wheelNumber = 2
+let wheelWidth = 1.3
+var hasBell = true
+func ringBell() {
+if hasBell {
+print("Ring!")
+}
+}
+}
+class LoudBike:Bike {
+override func ringBell() {
+if hasBell {
+print("RING!")
+}
+}
+func ringBellMoreTimes(times: Int) {
+for _ in 1...times {
+if hasBell {
+print("RING!")
+}
 }
 ```
 
@@ -93,9 +150,84 @@ for shape in myShapes {
     print("This is a \(shape.name) with an area of \(shape.area) and a perimeter of \(shape.perimeter)")
 }
 ```
+```swift
+class Shape {
+var name: String { return "This is a generic shape" }
+var area: Double { fatalError("Subclasses must override the area") }
+var perimeter: Double { fatalError("Subclasses must override the perimeter") }
+}
+
+class Square: Shape {
+var sideLength: Int = 5
+override var area: Double {
+return Double(sideLength * sideLength)
+}
+override var perimeter: Double {
+return Double(sideLength * 4)
+}
+override var name: String {
+return "Name: Square\n Area = \(area)\n Perimeter = \(perimeter)"
+}
+}
+
+class Rectangle: Shape {
+var width: Double = 6
+var height: Double = 4
+override var area: Double {
+return Double(width*height)
+}
+override var perimeter: Double {
+return Double(width*2 + height*2)
+}
+
+override var name: String {
+return "Name: Rectangle\n Area = \(area)\n Perimeter = \(perimeter)"
+}
+}
+
+let mySquare = Square()
+mySquare.area
+mySquare.perimeter
+print(mySquare.name)
+
+let myRectangle = Rectangle()
+print(myRectangle.name)
+```
 
 ## Question 6
+```swift
+struct Point {
+let x: Double
+let y: Double
+func distance(to point: Point) -> Double {
+let horizontalDistance = self.x - point.x
+let verticalDistance = self.y - point.y
+let distanceBetweenTwoPoints = sqrt(horizontalDistance * horizontalDistance + verticalDistance * verticalDistance)
+return distanceBetweenTwoPoints
+}
+}
+//let pointOne = Point(x: 0, y: 0)
+//let pointTwo = Point(x: 10, y: 10)
+//print(pointOne.distance(to: pointTwo)) //Prints 14.142135623730951
 
+struct Circle {
+let radius: Double
+let center: Point
+func contain(point: Point) -> Bool {
+return center.distance(to: point) == radius
+}
+}
+
+let pointOne = Point(x: 0, y: 0)
+let circleOne = Circle(radius: 5, center: pointOne)
+let pointTwo = Point(x: 5, y: 0)
+let pointThree = Point(x: 4, y: 0)
+let pointFour = Point(x: sqrt(12.5), y: sqrt(12.5))
+circleOne.contain(point: pointTwo)
+circleOne.contain(point: pointTwo) //true
+circleOne.contain(point: pointThree) // false
+circleOne.contain(point: pointFour) //true
+```
 a. Given the Point object below, complete the `distance` method so that it returns the distance between a given point.
 
 The equation for the distance formula can be found [here](https://www.mathsisfun.com/algebra/distance-2-points.html) and is give by:
